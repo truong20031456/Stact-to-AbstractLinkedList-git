@@ -48,7 +48,7 @@ public class DoublelyLinkedList<E> implements Iterable<E> {
         size++;
     }
 
-    public E removeFirst() {
+    public void removeFirst() {
         if (isEmpty()) {
             throw new NoSuchElementException("List is empty");
         }
@@ -60,10 +60,9 @@ public class DoublelyLinkedList<E> implements Iterable<E> {
             tail = null;
         }
         size--;
-        return element;
     }
 
-    public E removeLast() {
+    public void removeLast() {
         if (isEmpty()) {
             throw new NoSuchElementException("List is empty");
         }
@@ -75,7 +74,6 @@ public class DoublelyLinkedList<E> implements Iterable<E> {
             head = null;
         }
         size--;
-        return element;
     }
 
     public E getFirst() {
@@ -120,5 +118,25 @@ public class DoublelyLinkedList<E> implements Iterable<E> {
                 return element;
             }
         };
+    }
+    static class Main{
+        public static void main(String[] args) {
+            DoublelyLinkedList<Integer> doublelyLinkedList= new DoublelyLinkedList<>();
+            doublelyLinkedList.addFirst(10);
+            doublelyLinkedList.addFirst(20);
+            doublelyLinkedList.addFirst(30);
+            doublelyLinkedList.addFirst(40);
+            doublelyLinkedList.addLast(50);
+            doublelyLinkedList.removeFirst();
+            doublelyLinkedList.removeLast();
+            doublelyLinkedList.getFirst();
+            doublelyLinkedList.getLast();
+;
+
+
+
+
+
+        }
     }
 }
