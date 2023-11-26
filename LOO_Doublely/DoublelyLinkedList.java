@@ -3,9 +3,9 @@ package LOO_Doublely;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class DoublelyLinkedList<E> implements Iterable<E> {
+public class DoublelyLinkedList<E> implements AbstractLinked<E>{
     private class Node<E> {
-        private E element;
+        private final E element;
         private Node<E> next;
         private Node<E> prev;
 
@@ -48,7 +48,7 @@ public class DoublelyLinkedList<E> implements Iterable<E> {
         size++;
     }
 
-    public void removeFirst() {
+    public E removeFirst() {
         if (isEmpty()) {
             throw new NoSuchElementException("List is empty");
         }
@@ -60,9 +60,10 @@ public class DoublelyLinkedList<E> implements Iterable<E> {
             tail = null;
         }
         size--;
+        return element;
     }
 
-    public void removeLast() {
+    public E removeLast() {
         if (isEmpty()) {
             throw new NoSuchElementException("List is empty");
         }
@@ -74,6 +75,7 @@ public class DoublelyLinkedList<E> implements Iterable<E> {
             head = null;
         }
         size--;
+        return element;
     }
 
     public E getFirst() {
@@ -131,7 +133,7 @@ public class DoublelyLinkedList<E> implements Iterable<E> {
             doublelyLinkedList.removeLast();
             doublelyLinkedList.getFirst();
             doublelyLinkedList.getLast();
-;
+            ;
 
 
 
