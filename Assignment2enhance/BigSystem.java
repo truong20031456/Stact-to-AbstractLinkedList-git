@@ -1,4 +1,4 @@
-package Assignment2;
+package Assignment2enhance;
 
 import java.util.Queue;
 import java.util.Stack;
@@ -37,6 +37,6 @@ public abstract class BigSystem {
 
     public abstract void processMessages();
 
-    public void sendRequestToReceive() {
+    protected void sendRequestToReceive() {
     }
 }
