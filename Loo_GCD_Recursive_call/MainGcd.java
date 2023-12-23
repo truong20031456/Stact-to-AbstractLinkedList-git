@@ -1,4 +1,4 @@
-package Loo_GCD;
+package Loo_GCD_Recursive_call;
 
 public class MainGcd {
     public static void main(String[] args) {
@@ -7,7 +7,7 @@ public class MainGcd {
     }
     static int gcd(int a, int b){
         int x = a % b;
-        if(x==0){
+        if(x==0){ // base Condition
             return b;
         }
         return gcd(b,x);
