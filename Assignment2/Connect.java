@@ -19,26 +19,16 @@ public class Connect {
         // Handshaking
         systemA.connect(systemB);
         systemB.connect(systemA);
-
         // Sending a message from SystemA to SystemB
-        systemA.sendMessage("I from SystemA to SystemB");
-
-
-        // Receiving messages on SystemB from SystemA
+        systemA.sendMessage("truong from SystemA to SystemB");// Receiving messages on SystemB from SystemA
         systemB.receiveMessageFromSystemA("Received a message from SystemA");
-
         // Receiving messages on SystemA
-        systemA.receiveMessage();
-
-        // Reading outgoing messages from SystemA and incoming messages from SystemB
+        systemA.receiveMessage();// Reading outgoing messages from SystemA and incoming messages from SystemB
         systemA.readOutboxQueue();
         systemB.readInboxQueue();
-
         // Processing messages on both systems
         systemA.processMessages();
-        systemB.processMessages();
-
-        // Disconnecting
+        systemB.processMessages();// Disconnecting
         systemA.disconnect();
         systemB.disconnect();
     }

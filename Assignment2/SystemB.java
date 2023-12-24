@@ -14,23 +14,25 @@ public class SystemB extends BigSystem {
 
     @Override
     public void sendMessage(String message) {
-        if (message.isEmpty()) {
-            System.out.println("Error: Message is empty.");
-            return;
-        }
-
-        if (message.length() > 250) {
-            System.out.println("Error: Message is too long. Truncating message.");
-            // Logic to truncate the message into smaller messages
-            // For example:
-            while (message.length() > 250) {
-                String substring = message.substring(0, 250);
-                outBoxQueue.offer(substring);
-                message = message.substring(250);
+        try {
+            if (message.isEmpty()) {
+                throw new IllegalArgumentException("Error: Message is empty.");
             }
-            outBoxQueue.offer(message);
-        } else {
-            outBoxQueue.offer(message);
+            if (message.length() > 250) {
+                System.out.println("Error: Message is too long. Truncating message.");
+
+                // Split the long message into smaller chunks of maximum length 250
+                int chunkSize = 250;
+                for (int i = 0; i < message.length(); i += chunkSize) {
+                    int end = Math.min(message.length(), i + chunkSize);
+                    String chunk = message.substring(i, end);
+                    outBoxQueue.offer(chunk);
+                }
+            } else {
+                outBoxQueue.offer(message);
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -78,11 +80,13 @@ public class SystemB extends BigSystem {
     }
 
     public void receiveMessageFromSystemA(String message) {
-        if (isConnected()) {
-            System.out.println("Received message from SystemA: " + message);
-            inBoxQueue.offer(message);
-        } else {
-            System.out.println("Error: Connection not established with SystemA.");
+        try {
+            if (connectedSystem == null) {
+                throw new IllegalStateException("Error: Connection not established.");
+            }
+            connectedSystem.sendRequestToReceive();
+        } catch (IllegalStateException e) {
+            System.out.println(e.getMessage());
         }
     }
 

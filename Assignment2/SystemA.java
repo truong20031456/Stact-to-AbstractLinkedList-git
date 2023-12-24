@@ -18,38 +18,34 @@ public class SystemA extends BigSystem {
                 throw new IllegalArgumentException("Error: Message is empty.");
             }
             if (message.length() > 250) {
-                throw new IllegalArgumentException("Error: Message is too long. Truncating message.");
-                // Logic to truncate the message into smaller messages
+                System.out.println("Error: Message is too long. Truncating message.");
+
+                // Split the long message into smaller chunks of maximum length 250
+                int chunkSize = 250;
+                for (int i = 0; i < message.length(); i += chunkSize) {
+                    int end = Math.min(message.length(), i + chunkSize);
+                    String chunk = message.substring(i, end);
+                    outBoxQueue.offer(chunk);
+                }
+            } else {
+                outBoxQueue.offer(message);
             }
-            outBoxQueue.offer(message);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
-
-
-        if (message.length() > 250) {
-            System.out.println("Error: Message is too long. Truncating message.");
-            // Logic to truncate the message into smaller messages
-            // For example:
-            while (message.length() > 250) {
-                String substring = message.substring(0, 250);
-                outBoxQueue.offer(substring);
-                message = message.substring(250);
-            }
-            outBoxQueue.offer(message);
-        } else {
-            outBoxQueue.offer(message);
-        }
     }
+
 
     @Override
     public void receiveMessage() {
-        if (connectedSystem == null) {
-            System.out.println("Error: Connection not established.");
-            return;
+        try {
+            if (connectedSystem == null) {
+                throw new IllegalStateException("Error: Connection not established.");
+            }
+            connectedSystem.sendRequestToReceive();
+        } catch (IllegalStateException e) {
+            System.out.println(e.getMessage());
         }
-
-        connectedSystem.sendRequestToReceive();
     }
 
     @Override
