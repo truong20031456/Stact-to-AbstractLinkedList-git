@@ -21,9 +21,7 @@ public Queue(){
    head =null;
       tail = null;
       size =0;
-
 }
-
     public void offer(E element) {
         Node<E> newNode = new Node<>(element);
         if (isEmpty()) {
@@ -31,10 +29,8 @@ public Queue(){
         } else {
             tail.Next = newNode;
             tail = newNode;
-        }
-        size++;
+        }size++;
     }
-
     public E poll() {
         if (isEmpty()) {
             throw new NoSuchElementException("Queue is empty");
@@ -101,7 +97,7 @@ public Queue(){
        Node<E> Current = head;
         StringBuilder result = new StringBuilder("[");
 
-        while (Current!=null){
+        while (Current !=null){
             result.append(Current.element);
             if (Current.Next !=null){
                 result.append(", ");}

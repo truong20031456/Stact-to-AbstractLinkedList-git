@@ -4,31 +4,12 @@ import java.util.Queue;
 import java.util.Stack;
 
 public class SystemB extends BigSystem {
+    private  boolean connected= false;
 
     public SystemB(Queue<String> inBoxQueue, Queue<String> outBoxQueue, Stack<String> processingStack) {
         this.inBoxQueue = inBoxQueue;
         this.outBoxQueue = outBoxQueue;
         this.processingStack = processingStack;
-    }
-    public void sendRequestToReceive() {
-        if (isConnected()) {
-            // Check if SystemA has messages
-            if (getOutBoxQueue().isEmpty()) {
-                // If SystemA's outboxQueue is empty
-                System.out.println("SystemA's outboxQueue is empty.");
-            } else {
-                // Otherwise, send messages to SystemA's inboxQueue
-                getInBoxQueue().offer(getOutBoxQueue().poll());
-                System.out.println("Received messages from SystemA.");
-            }
-        } else {
-            // If the connection is not established
-            System.out.println("Error: Connection not established with SystemA.");
-        }
-    }
-
-    private boolean isConnected() {
-        return false;
     }
 
     @Override
@@ -37,20 +18,32 @@ public class SystemB extends BigSystem {
             System.out.println("Error: Message is empty.");
             return;
         }
+
         if (message.length() > 250) {
             System.out.println("Error: Message is too long. Truncating message.");
             // Logic to truncate the message into smaller messages
+            // For example:
+            while (message.length() > 250) {
+                String substring = message.substring(0, 250);
+                outBoxQueue.offer(substring);
+                message = message.substring(250);
+            }
+            outBoxQueue.offer(message);
+        } else {
+            outBoxQueue.offer(message);
         }
-        outBoxQueue.offer(message);
     }
 
     @Override
     public void receiveMessage() {
-        if (connectedSystem == null) {
-            System.out.println("Error: Connection not established.");
-            return;
+        try {
+            if (connectedSystem == null) {
+                throw new IllegalStateException("Error: Connection not established.");
+            }
+            connectedSystem.sendRequestToReceive();
+        } catch (IllegalStateException e) {
+            System.out.println(e.getMessage());
         }
-        connectedSystem.sendRequestToReceive();
     }
 
     @Override
@@ -59,15 +52,11 @@ public class SystemB extends BigSystem {
         if (outBoxQueue.isEmpty()) {
             System.out.println("Outbox Queue is empty.");
         } else {
-            int messageCount = outBoxQueue.size();
-            System.out.println("Number of messages in Outbox Queue: " + messageCount);
-            System.out.println("Messages:");
             for (String message : outBoxQueue) {
                 System.out.println(message);
             }
         }
     }
-
 
     @Override
     public void readInboxQueue() {
@@ -75,15 +64,11 @@ public class SystemB extends BigSystem {
         if (inBoxQueue.isEmpty()) {
             System.out.println("Inbox Queue is empty.");
         } else {
-            int messageCount = inBoxQueue.size();
-            System.out.println("Number of messages in Inbox Queue: " + messageCount);
-            System.out.println("Messages:");
             for (String message : inBoxQueue) {
                 System.out.println(message);
             }
         }
     }
-
 
     @Override
     public void processMessages() {
@@ -91,15 +76,45 @@ public class SystemB extends BigSystem {
             processingStack.push(inBoxQueue.poll());
         }
     }
+
     public void receiveMessageFromSystemA(String message) {
         if (isConnected()) {
-            // Xử lý tin nhắn từ SystemA
             System.out.println("Received message from SystemA: " + message);
-            getInBoxQueue().offer(message); // Lưu tin nhắn vào inboxQueue của SystemB
+            inBoxQueue.offer(message);
         } else {
             System.out.println("Error: Connection not established with SystemA.");
         }
     }
 
+    public void sendRequestToReceive() {
+        if (isConnected()) {
+            if (connectedSystem.getOutBoxQueue().isEmpty()) {
+                System.out.println("SystemA's outboxQueue is empty.");
+            } else {
+                inBoxQueue.offer(connectedSystem.getOutBoxQueue().poll());
+                System.out.println("Received messages from SystemA.");
+            }
+        } else {
+            System.out.println("Error: Connection not established with SystemA.");
+        }
+    }
+    @Override
+    public void connect(BigSystem system) {
+        this.connectedSystem = system;
+        system.connectedSystem = this;
+        System.out.println(this.getClass().getSimpleName() + " is connecting to " + system.getClass().getSimpleName());
+        System.out.println(system.getClass().getSimpleName() + " is connecting to " + this.getClass().getSimpleName());
+        this.connected = true;
+    }
 
+    @Override
+    public void disconnect() {
+        this.connectedSystem = null;
+        this.connected = false;
+    }
+
+
+    public boolean isConnected() {
+        return connected;
+    }
 }

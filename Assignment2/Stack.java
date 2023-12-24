@@ -1,6 +1,6 @@
 package Assignment2;
 
-import java.security.PublicKey;
+
 import java.util.Iterator;
 
 public class Stack<E> implements AbstractStack<E> {
@@ -27,27 +27,18 @@ public class Stack<E> implements AbstractStack<E> {
         newNode.Next = Top;
         Top = newNode;
         size++;
-
-
-
     }
-
     @Override
     public E pop() {
         E element = Top.element;
         Top = Top.Next;
         size--;
-
-
-
         return null;
     }
-
     @Override
     public int size() {
         return size;
     }
-
     @Override
     public boolean isEmpty() {
         return size==0 && Top ==null;
@@ -62,11 +53,8 @@ public class Stack<E> implements AbstractStack<E> {
             for (int i = stackSize; i > 0; i--) {
                 System.out.println(i + ". " + temp.element);
                 temp = temp.Next;
-            }
-            System.out.println("\n");
-        }
-    }
-
+            }System.out.println("\n");
+        }}
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
