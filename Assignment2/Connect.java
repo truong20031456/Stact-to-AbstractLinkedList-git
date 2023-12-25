@@ -4,51 +4,53 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
+
 public class Connect {
     public static void main(String[] args) {
-        Queue<String> inBoxQueueA = new LinkedList<>();
-        Queue<String> outBoxQueueA = new LinkedList<>();
+        Queue<String> OutBoxQueueA = new LinkedList<>();
+        Queue<String> InBoxQueueA = new LinkedList<>();
         Stack<String> processingStackA = new Stack<>();
-        Queue<String> inBoxQueueB = new LinkedList<>();
-        Queue<String> outBoxQueueB = new LinkedList<>();
+        Queue<String> OutBoxQueueB = new LinkedList<>();
+        Queue<String> InBoxQueueB = new LinkedList<>();
         Stack<String> processingStackB = new Stack<>();
 
-        SystemA systemA = new SystemA(inBoxQueueA, outBoxQueueA, processingStackA);
-        SystemB systemB = new SystemB(inBoxQueueB, outBoxQueueB, processingStackB);
+        BigSystem systemA = new BigSystem(OutBoxQueueA, InBoxQueueA, processingStackA);
+        systemA.setName("systemA");
+        BigSystem systemB = new BigSystem(OutBoxQueueB, InBoxQueueB, processingStackB);
+        systemB.setName("systemB");
 
-        // Handshaking
+    // Handshaking
 
         // Sending a message from SystemA to SystemB
 
-            System.out.println("Handshaking...");
+          //*  System.out.println("Handshaking...");
         systemA.connect(systemB);
-        systemB.connect(systemA);
+
+
             // Gọi các hàm và in ra thông điệp kiểm tra
             // Ví dụ:
-            System.out.println("Sending a message from SystemA to SystemB");
-            systemA.sendMessage("Tôi là Howl và tôi muốn gữi tin nhắn này từ system A đến B một cách nhanh nhất nhưng maf hầu heet bi saiwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwư");
+           System.out.println("Sending a message from SystemA to SystemB");
+            systemA.sendMessage("Tôi là Howl và tôi muốn gữi tin nhắn này từ system A đến B một cách nhanh nhất nhưng maf hầu heet bi ");
 
             System.out.println("Receiving messages on SystemB from SystemA");
-            systemB.receiveMessageFromSystemA("Received a message from SystemA");
-
+            systemB.receiveMessageFromSystem(systemA);
+//*
             System.out.println("Receiving messages on SystemA");
             systemA.receiveMessage();
 
-            System.out.println("Reading outgoing messages from SystemA");
+          System.out.println("Reading outgoing messages from SystemA");
             systemA.readOutboxQueue();
 
-            System.out.println("Reading incoming messages from SystemB");
+           System.out.println("Reading incoming messages from SystemB");
             systemB.readInboxQueue();
 
-            System.out.println("Processing messages on both systems");
+    System.out.println("Processing messages on both systems");
             systemA.processMessages();
             systemB.processMessages();
-
-            System.out.println("Disconnecting...");
-            systemA.disconnect();
-            systemB.disconnect();
-
-        long startTimeSystemA = System.currentTimeMillis();
+       System.out.println("Disconnecting...");
+        systemA.disconnect();
+        systemB.disconnect();
+      /* long startTimeSystemA = System.currentTimeMillis();
         systemA.processMessages();
         long endTimeSystemA = System.currentTimeMillis();
         long executionTimeSystemA = endTimeSystemA - startTimeSystemA;
@@ -72,14 +74,12 @@ public class Connect {
         systemA.receiveMessage();
         long endTimeReceiveMessage = System.currentTimeMillis();
         long executionTimeReceiveMessage = endTimeReceiveMessage - startTimeReceiveMessage;
-        System.out.println("SystemA receiveMessage() execution time: " + executionTimeReceiveMessage + " milliseconds");
+        System.out.println("SystemA receiveMessage() execution time: " + executionTimeReceiveMessage + " milliseconds");*/
 
 // Similarly, measure execution time for other methods in SystemA or SystemB
 
     }
 
-
-
-}
+    }
 
 
