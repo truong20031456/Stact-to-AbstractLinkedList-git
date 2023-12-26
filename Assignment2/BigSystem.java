@@ -26,18 +26,26 @@ public class BigSystem {
     }
 
     public void connect(BigSystem system) {
+        if (this.getName().equals("systemA") && system.getName().equals("systemB")) {
             this.connectedSystem = system;
             system.connectedSystem = this;
 
-            // Assuming `name` is an attribute of BigSystem
-            String thisSystemName = this.name != null ? "'" + this.name + "'" : "";
-            String connectedSystemName = system.getName() != null ? "'" + system.getName() + "'" : "";
-
-            System.out.println(this.getClass().getSimpleName() + " " + thisSystemName + " is connecting to " + system.getClass().getSimpleName() + " " + connectedSystemName);
-            System.out.println(system.getClass().getSimpleName() + " " + connectedSystemName + " is connecting to " + this.getClass().getSimpleName() + " " + thisSystemName);
+            // Printing connection information only for systemA connecting to systemB
+            System.out.println(this.getClass().getSimpleName() + " '" + this.getName() + "' is connecting to " +
+                    system.getClass().getSimpleName() + " '" + system.getName() + "'");
+        } else if (this.getName().equals("systemB") && system.getName().equals("systemA")) {
+            this.connectedSystem = system;
+            system.connectedSystem = this;
+            // Do nothing or handle the connection differently if systemB connects to systemA
+            // Optionally print a message indicating that the connection is not supported
+            System.out.println(this.getClass().getSimpleName() + " '" + this.getName() + "' is connecting to " +
+                    system.getClass().getSimpleName() + " '" + system.getName() + "'");
         }
+    }
 
-        // Existing code...
+
+
+    // Existing code...
 
 
 
@@ -55,26 +63,35 @@ public class BigSystem {
 
     public void sendMessage(String message) {
         try {
-            if (message.isEmpty()) {
-                throw new IllegalArgumentException("Error: Message is empty.");
+            if (connectedSystem == null) {
+                throw new IllegalStateException("Error: Not connected to any system.");
             }
-            if (message.length() > 250) {
-                System.out.println("Error: Message is too long. Truncating message.");
 
-                // Split the long message into smaller chunks of maximum length 250
-                int chunkSize = 250;
-                for (int i = 0; i < message.length(); i += chunkSize) {
-                    int end = Math.min(message.length(), i + chunkSize);
-                    String chunk = message.substring(i, end);
-                    outBoxQueue.offer(chunk);
+            if (this == connectedSystem) {
+                if (message.isEmpty()) {
+                    throw new IllegalArgumentException("Error: Message is empty.");
                 }
+                if (message.length() > 250) {
+                    System.out.println("Error: Message is too long. Truncating message.");
+                    int chunkSize = 250;
+                    for (int i = 0; i < message.length(); i += chunkSize) {
+                        int end = Math.min(message.length(), i + chunkSize);
+                        String chunk = message.substring(i, end);
+                        outBoxQueue.offer(chunk);
+                    }
+                } else {
+                    outBoxQueue.offer(message);
+                }
+                System.out.println("Message sent from " + this.getClass().getSimpleName() + " '" + this.getName() + "' to " +
+                        connectedSystem.getClass().getSimpleName() + " '" + connectedSystem.getName() + "'");
             } else {
-                outBoxQueue.offer(message);
+                System.out.println("Error: Not connected to the intended system.");
             }
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalStateException | IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
     }
+
     public void receiveMessageFromSystem(BigSystem connectedSystem) {
         Queue<String> connectedInBoxQueue = connectedSystem.getInBoxQueue();
         if (!connectedInBoxQueue.isEmpty()) {
@@ -146,17 +163,25 @@ public class BigSystem {
     }
 
 
-    public void disconnect() {
-        this.connectedSystem = null;
-        this.connected = false;
+    public void disconnect(BigSystem systemToDisconnect) {
+        if (this.connectedSystem == null || systemToDisconnect.connectedSystem == null) {
+            System.out.println("Both systems are already disconnected.");
+        } else if (this.connectedSystem == systemToDisconnect && systemToDisconnect.connectedSystem == this) {
+            this.connectedSystem = null;
+            systemToDisconnect.connectedSystem = null;
+
+            System.out.println("Disconnected " + systemToDisconnect.getClass().getSimpleName() + " '" + systemToDisconnect.getName() +
+                    "' from " + this.getClass().getSimpleName() + " '" + this.getName() + "'");
+        } else {
+            System.out.println("Invalid disconnection. Please choose the correct systems to disconnect.");
+        }
     }
+
+
 
 
     public boolean isConnected() {
         return connected;
     }
-
-
-
 
 }

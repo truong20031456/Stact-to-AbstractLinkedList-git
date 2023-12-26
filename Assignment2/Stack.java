@@ -6,7 +6,7 @@ import java.util.Iterator;
 public class Stack<E> implements AbstractStack<E> {
 
     private static class Node<E> {
-        private E element;
+        private final E element;
         private Node<E> Next;
         public Node(E element){
             this.element =element;
