@@ -194,10 +194,10 @@ public class connect {
 
                     if (connectChoices == 1) {
                         systemA.connect(systemB);
-                        systemB.disconnect(systemA);
+
                     } else if (connectChoices == 2) {
                         systemB.connect(systemA);
-                        systemA.disconnect(systemB);
+
                     }
                     break;
                 case 13:
