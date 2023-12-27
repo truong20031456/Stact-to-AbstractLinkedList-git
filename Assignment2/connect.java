@@ -29,6 +29,8 @@ public class connect {
                     System.out.println("5. Receive message on SystemA");
                     System.out.println("6. Read outgoing messages from SystemA");
                     System.out.println("7. Read incoming messages from SystemA");
+                    System.out.println("10. Process messages on systems A");
+
                     // Add other options for SystemA
                 }
                 if (systemB.isConnected()) {
@@ -38,11 +40,12 @@ public class connect {
                     System.out.println("4. Receive message on SystemB ");
                     System.out.println("8. Read incoming messages from SystemB");
                     System.out.println("9. Read outgoing messages from SystemA");
+                    System.out.println("13. Process messages on systems B");
                     // Add other options for SystemB
                 }
             }
 
-            System.out.println("10. Process messages on both systems");
+
             System.out.println("11. Disconnect systems");
             System.out.println("12. Switch on systems");
             System.out.println("13. Exit");
@@ -154,18 +157,13 @@ public class connect {
                     break;
                 case 10:
                     if (systemA.isConnected()) {
+                        systemB.disconnect(systemA);
                         System.out.println("Processing messages on SystemA");
                         systemA.processMessages();
                     } else {
                         System.out.println("SystemA is not connected.");
                     }
 
-                    if (systemB.isConnected()) {
-                        System.out.println("Processing messages on SystemB");
-                        systemB.processMessages();
-                    } else {
-                        System.out.println("SystemB is not connected.");
-                    }
                     break;
                 case 11:
                     if (systemA.isConnected() || systemB.isConnected()) {
@@ -201,8 +199,18 @@ public class connect {
                     }
                     break;
                 case 13:
+                    if (systemB.isConnected() ) {
+                        systemA.disconnect(systemB);
+                        System.out.println("Processing messages on SystemB");
+                        systemB.processMessages();
+                    } else {
+                        System.out.println("SystemB is not connected.");
+                    }
+                    break;
+                case 14:
                     exit = true;
                     break;
+
                 default:
                     System.out.println("Invalid choice. Please enter a number from the menu.");
                     break;
