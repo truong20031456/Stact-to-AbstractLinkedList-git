@@ -91,39 +91,6 @@ public class BigSystem {
             System.out.println(e.getMessage());
         }
     }
-
-    public void sendRequestToReceive() {
-        if (isConnected()) {
-            Queue<String> connectedOutBoxQueue = connectedSystem.getOutBoxQueue();
-
-            if (connectedOutBoxQueue.isEmpty()) {
-                System.out.println("System's outboxQueue is empty.");
-            } else {
-                while (!connectedOutBoxQueue.isEmpty()) {
-                    String message = connectedOutBoxQueue.poll();
-                    getInBoxQueue().offer(message);
-                }
-                System.out.println("Received messages from System.");
-            }
-        } else {
-            System.out.println("Error: Connection not established.");
-        }
-    }
-
-    public void receiveMessageFromSystem(BigSystem connectedSystem) {
-        if (connectedSystem == null) {
-            System.out.println("Error: No connected system provided.");
-            return;
-        }
-
-        if (this.isConnected()) {
-            connectedSystem.sendRequestToReceive();
-            System.out.println("Received messages from " + connectedSystem.getClass().getSimpleName());
-        } else {
-            System.out.println("Error: Connection not established.");
-        }
-    }
-
     public void readOutboxQueue() {
         System.out.println("Outgoing Messages from " + this.getClass().getSimpleName() + " '" + this.getName() + "':");
         if (getOutBoxQueue().isEmpty()) {
@@ -145,6 +112,49 @@ public class BigSystem {
             }
         }
     }
+
+
+    public void sendRequestToReceive() {
+        if (!isConnected()) {
+            System.out.println("Error: Connection not established.");
+            return;
+        }
+
+        if (connectedSystem == null) {
+            System.out.println("Error: No connected system found.");
+            return;
+        }
+
+        Queue<String> connectedOutBoxQueue = connectedSystem.getOutBoxQueue();
+
+        if (connectedOutBoxQueue.isEmpty()) {
+            System.out.println("System's outboxQueue is empty.");
+        } else {
+            while (!connectedOutBoxQueue.isEmpty()) {
+                String message = connectedOutBoxQueue.poll();
+                getInBoxQueue().offer(message);
+            }
+            System.out.println("Received messages from connected system.");
+        }
+    }
+
+    public void receiveMessageFromSystem(BigSystem connectedSystem) {
+        if (connectedSystem == null) {
+            System.out.println("Error: No connected system provided.");
+            return;
+        }
+
+        if (connectedSystem.isConnected()) {
+            connectedSystem.sendRequestToReceive();
+            readInboxQueue();
+            System.out.println("Received messages from " + connectedSystem.getClass().getSimpleName());
+        } else {
+            System.out.println("Error: Connection not established with the provided system.");
+        }
+    }
+
+
+
 
     public void processMessages() {
         try {
