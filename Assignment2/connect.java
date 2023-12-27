@@ -9,17 +9,15 @@ public class connect {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
-        Queue<String> OutBoxQueueA = new LinkedList<>();
-        Queue<String> InBoxQueueA = new LinkedList<>();
-        Stack<String> processingStackA = new Stack<>();
-        Queue<String> OutBoxQueueB = new LinkedList<>();
-        Queue<String> InBoxQueueB = new LinkedList<>();
-        Stack<String> processingStackB = new Stack<>();
 
-        BigSystem systemA = new BigSystem(OutBoxQueueA, InBoxQueueA, processingStackA);
+
+
+        BigSystem systemA = new BigSystem();
         systemA.setName("systemA");
-        BigSystem systemB = new BigSystem(OutBoxQueueB, InBoxQueueB, processingStackB);
+
+        BigSystem systemB = new BigSystem();
         systemB.setName("systemB");
+
 
 
         while (!exit) {
