@@ -1,8 +1,6 @@
 package Assignment2;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
+
 import java.util.Scanner;
 
 public class connect {
@@ -10,15 +8,11 @@ public class connect {
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
 
-
-
         BigSystem systemA = new BigSystem();
         systemA.setName("systemA");
 
         BigSystem systemB = new BigSystem();
         systemB.setName("systemB");
-
-
 
         while (!exit) {
             System.out.println("\n===== Menu =====");
@@ -41,7 +35,7 @@ public class connect {
                     System.out.println("SystemsB");
                     System.out.println("1. CheckConnect");
                     System.out.println("3. Send message from SystemB to SystemA");
-                    System.out.println("4. Receive message on SystemB from SystemA");
+                    System.out.println("4. Receive message on SystemB ");
                     System.out.println("8. Read incoming messages from SystemB");
                     System.out.println("9. Read outgoing messages from SystemA");
                     // Add other options for SystemB
@@ -76,38 +70,34 @@ public class connect {
                     break;
                 case 2: // Send message from SystemA to SystemB
                     if (systemA.isConnected()) {
-                        {
-                            System.out.println("Sending a message from SystemA to SystemB");
-                            System.out.print("Enter the message: ");
-                            String messageAtoB = scanner.nextLine();
+                        System.out.println("Sending a message from SystemA to SystemB");
+                        System.out.print("Enter the message: ");
+                        String messageAtoB = scanner.nextLine();
 
-                            // Kiểm tra kết nối trước khi gửi tin nhắn
-                            if (systemA.isConnected()) {
-                                systemA.sendMessage(messageAtoB); // Gửi tin nhắn từ SystemA đến SystemB
-                                System.out.println("Message sent from SystemA to SystemB.");
-                                systemB.receiveMessageFromSystem(systemA); // Xử lý tin nhắn nhận được ở SystemB
-                            } else {
-                                System.out.println("Systems are not connected.");
-                            }
+                        // Check connection before sending message
+                        if (systemA.isConnected()) {
+                            systemA.sendMessage(messageAtoB); // Send message from SystemA to SystemB
+                            System.out.println("Message sent from SystemA to SystemB.");
+                            systemB.receiveMessageFromSystem(systemA); // Process received message on SystemB
+                        } else {
+                            System.out.println("Systems are not connected.");
                         }
                     }
                     break;
 
                 case 3: // Send message from SystemB to SystemA
                     if (systemB.isConnected()) {
-                        {
-                            System.out.println("Sending a message from SystemB to SystemA");
-                            System.out.print("Enter the message: ");
-                            String messageBtoA = scanner.nextLine();
+                        System.out.println("Sending a message from SystemB to SystemA");
+                        System.out.print("Enter the message: ");
+                        String messageBtoA = scanner.nextLine();
 
-                            // Kiểm tra kết nối trước khi gửi tin nhắn
-                            if ( systemB.isConnected()) {
-                                systemB.sendMessage(messageBtoA); // Gửi tin nhắn từ SystemB đến SystemA
-                                System.out.println("Message sent from SystemB to SystemA.");
-                                systemA.receiveMessageFromSystem(systemB); // Xử lý tin nhắn nhận được ở SystemA
-                            } else {
-                                System.out.println("Systems are not connected.");
-                            }
+                        // Check connection before sending message
+                        if (systemB.isConnected()) {
+                            systemB.sendMessage(messageBtoA); // Send message from SystemB to SystemA
+                            System.out.println("Message sent from SystemB to SystemA.");
+                            systemA.receiveMessageFromSystem(systemB); // Process received message on SystemA
+                        } else {
+                            System.out.println("Systems are not connected.");
                         }
                     } else {
                         System.out.println("SystemB is not connected to SystemA.");
@@ -163,22 +153,19 @@ public class connect {
                     }
                     break;
                 case 10:
+                    if (systemA.isConnected()) {
+                        System.out.println("Processing messages on SystemA");
+                        systemA.processMessages();
+                    } else {
+                        System.out.println("SystemA is not connected.");
+                    }
 
-
-                        if (systemA.isConnected()) {
-                            System.out.println("Processing messages on SystemA");
-                            systemA.processMessages();
-                        } else {
-                            System.out.println("SystemA is not connected.");
-                        }
-
-                        if (systemB.isConnected()) {
-                            System.out.println("Processing messages on SystemB");
-                            systemB.processMessages();
-                        } else {
-                            System.out.println("SystemB is not connected.");
-                        }
-
+                    if (systemB.isConnected()) {
+                        System.out.println("Processing messages on SystemB");
+                        systemB.processMessages();
+                    } else {
+                        System.out.println("SystemB is not connected.");
+                    }
                     break;
                 case 11:
                     if (systemA.isConnected() || systemB.isConnected()) {
@@ -206,13 +193,9 @@ public class connect {
                     scanner.nextLine(); // Consume newline
 
                     if (connectChoices == 1) {
-
                         systemA.connect(systemB);
-
                     } else if (connectChoices == 2) {
-
                         systemB.connect(systemA);
-
                     }
                     break;
                 case 13:
@@ -222,10 +205,7 @@ public class connect {
                     System.out.println("Invalid choice. Please enter a number from the menu.");
                     break;
             }
-
         }
         scanner.close();
-
-    }}
-        // Reset các biến hệ thống tại đây (nếu cần)
-
+    }
+}
