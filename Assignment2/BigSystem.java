@@ -104,9 +104,23 @@ public class BigSystem {
         }
     }
 
+    public void sendRequestToReceive() {
+        if (isConnected()) {
+            if (connectedSystem.getOutBoxQueue().isEmpty()) {
+                System.out.println("System's outboxQueue is empty.");
+            } else {
+                getInBoxQueue().offer(connectedSystem.getOutBoxQueue().poll());
+                System.out.println("Received messages from System.");
+            }
+        } else {
+            System.out.println("Error: Connection not established with SystemA.");
+        }
+    }
+
 
 
     public void receiveMessageFromSystem(BigSystem connectedSystem) {
+
         Queue<String> connectedOutBoxQueue = connectedSystem.getOutBoxQueue();
 
         // Kiểm tra xem hàng đợi của hệ thống kết nối có tin nhắn hay không
@@ -124,18 +138,7 @@ public class BigSystem {
     }
 
 
-    public void sendRequestToReceive() {
-        if (isConnected()) {
-            if (connectedSystem.getOutBoxQueue().isEmpty()) {
-                System.out.println("System's outboxQueue is empty.");
-            } else {
-                getInBoxQueue().offer(connectedSystem.getOutBoxQueue().poll());
-                System.out.println("Received messages from System.");
-            }
-        } else {
-            System.out.println("Error: Connection not established with SystemA.");
-        }
-    }
+
 
 
 /*    public void receiveMessage() {
@@ -178,11 +181,14 @@ public class BigSystem {
             if (connectedSystem == null) {
                 throw new IllegalStateException("Error: Connection not established.");
             }
-
             while (!getInBoxQueue().isEmpty()) {
                 String message = getInBoxQueue().poll();
-                getProcessingStack().push(message);
-                System.out.println("Message processed: " + message);
+                getProcessingStack() .push(message);
+            }
+
+            while (!getProcessingStack() .isEmpty()) {
+                String poppedMessage = getProcessingStack() .pop();
+                System.out.println("Message popped from processingStack: " + poppedMessage);
             }
         } catch (IllegalStateException e) {
             System.out.println(e.getMessage());
