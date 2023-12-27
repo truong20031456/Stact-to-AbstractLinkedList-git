@@ -157,7 +157,7 @@ public class connect {
                     break;
                 case 10:
                     if (systemA.isConnected()) {
-                        systemB.disconnect(systemA);
+
                         System.out.println("Processing messages on SystemA");
                         systemA.processMessages();
                     } else {
@@ -200,10 +200,11 @@ public class connect {
                     break;
                 case 13:
                     if (systemB.isConnected() ) {
-                        systemA.disconnect(systemB);
+
                         System.out.println("Processing messages on SystemB");
                         systemB.processMessages();
-                    } else {
+                    } else
+                    {
                         System.out.println("SystemB is not connected.");
                     }
                     break;
