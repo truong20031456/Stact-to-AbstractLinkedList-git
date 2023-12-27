@@ -26,7 +26,7 @@ public class connect {
                     System.out.println("SystemsA");
                     System.out.println("1. CheckConnect");
                     System.out.println("2. Send message from SystemA to SystemB");
-                    System.out.println("5. Receive message on SystemA");
+                    System.out.println("5. Receive message on SystemB");
                     System.out.println("6. Read outgoing messages from SystemA");
                     System.out.println("7. Read incoming messages from SystemA");
                     System.out.println("10. Process messages on systems A");
@@ -37,7 +37,7 @@ public class connect {
                     System.out.println("SystemsB");
                     System.out.println("1. CheckConnect");
                     System.out.println("3. Send message from SystemB to SystemA");
-                    System.out.println("4. Receive message on SystemB ");
+                    System.out.println("4. Receive message on SystemA ");
                     System.out.println("8. Read incoming messages from SystemB");
                     System.out.println("9. Read outgoing messages from SystemA");
                     System.out.println("13. Process messages on systems B");
