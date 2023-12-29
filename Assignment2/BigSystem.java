@@ -146,7 +146,7 @@ public class BigSystem {
 
         if (connectedSystem.isConnected()) {
             connectedSystem.sendRequestToReceive();
-            readInboxQueue();
+
             System.out.println("Received messages from " + connectedSystem.getClass().getSimpleName());
         } else {
             System.out.println("Error: Connection not established with the provided system.");

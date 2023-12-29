@@ -80,8 +80,7 @@ public class connect {
                         // Check connection before sending message
                         if (systemA.isConnected()) {
                             systemA.sendMessage(messageAtoB); // Send message from SystemA to SystemB
-                            System.out.println("Message sent from SystemA to SystemB.");
-                            systemB.receiveMessageFromSystem(systemA); // Process received message on SystemB
+                            systemA.receiveMessageFromSystem(systemB); // Process received message on SystemB
                         } else {
                             System.out.println("Systems are not connected.");
                         }
@@ -98,7 +97,7 @@ public class connect {
                         if (systemB.isConnected()) {
                             systemB.sendMessage(messageBtoA); // Send message from SystemB to SystemA
                             System.out.println("Message sent from SystemB to SystemA.");
-                            systemA.receiveMessageFromSystem(systemB); // Process received message on SystemA
+                            systemB.receiveMessageFromSystem(systemA); // Process received message on SystemA
                         } else {
                             System.out.println("Systems are not connected.");
                         }
