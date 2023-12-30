@@ -79,7 +79,13 @@ public class connect {
 
                         // Check connection before sending message
                         if (systemA.isConnected()) {
+                            long startTime = System.currentTimeMillis(); // Capture start time
                             systemA.sendMessage(messageAtoB); // Send message from SystemA to SystemB
+                            long endTime = System.currentTimeMillis(); // Capture end time
+                            long timeTaken = endTime - startTime; // Calculate time taken
+
+                            System.out.println("Message sent from SystemA to SystemB.");
+                            System.out.println("Time taken to send message: " + timeTaken + " milliseconds");
                             // Process received message on SystemB
 
                         } else {
@@ -87,6 +93,7 @@ public class connect {
                         }
                     }
                     break;
+
 
                 case 3: // Send message from SystemB to SystemA
                     if (systemB.isConnected()) {
@@ -96,8 +103,12 @@ public class connect {
 
                         // Check connection before sending message
                         if (systemB.isConnected()) {
-                            systemB.sendMessage(messageBtoA); // Send message from SystemB to SystemA
+                            long startTime = System.currentTimeMillis();
+                            systemB.sendMessage(messageBtoA);
+                            long endTime = System.currentTimeMillis(); // Capture end time
+                            long timeTaken = endTime - startTime; // Calculate time taken// Send message from SystemB to SystemA
                             System.out.println("Message sent from SystemB to SystemA.");
+                            System.out.println("Time taken to send message: " + timeTaken + " milliseconds");
                             // Process received message on SystemA
 
                         } else {
