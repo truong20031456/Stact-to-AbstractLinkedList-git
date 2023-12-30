@@ -29,6 +29,7 @@ public class BigSystem {
         inBoxQueue = new LinkedList<>();
         outBoxQueue = new LinkedList<>();
         processingStack = new Stack<>();
+
     }
 
     private String name;
@@ -76,10 +77,10 @@ public class BigSystem {
                     for (int i = 0; i < message.length(); i += chunkSize) {
                         int end = Math.min(message.length(), i + chunkSize);
                         String chunk = message.substring(i, end);
-                        getOutBoxQueue().offer(chunk);
+                        outBoxQueue.offer(chunk);
                     }
                 } else {
-                    getOutBoxQueue().offer(message);
+                    outBoxQueue.offer(message);
                 }
 
                 System.out.println("Message sent from " + this.getClass().getSimpleName() + " '" + this.getName() + "' to " +
@@ -125,14 +126,14 @@ public class BigSystem {
             return;
         }
 
-        Queue<String> connectedOutBoxQueue = connectedSystem.getOutBoxQueue();
+        Queue<String> connectedOutBoxQueue = connectedSystem.outBoxQueue;
 
         if (connectedOutBoxQueue.isEmpty()) {
             System.out.println("System's outboxQueue is empty.");
         } else {
             while (!connectedOutBoxQueue.isEmpty()) {
                 String message = connectedOutBoxQueue.poll();
-                getInBoxQueue().offer(message);
+                inBoxQueue.offer(message);
             }
             System.out.println("Received messages from connected system.");
         }

@@ -80,7 +80,8 @@ public class connect {
                         // Check connection before sending message
                         if (systemA.isConnected()) {
                             systemA.sendMessage(messageAtoB); // Send message from SystemA to SystemB
-                            systemA.receiveMessageFromSystem(systemB); // Process received message on SystemB
+                            // Process received message on SystemB
+
                         } else {
                             System.out.println("Systems are not connected.");
                         }
@@ -97,7 +98,8 @@ public class connect {
                         if (systemB.isConnected()) {
                             systemB.sendMessage(messageBtoA); // Send message from SystemB to SystemA
                             System.out.println("Message sent from SystemB to SystemA.");
-                            systemB.receiveMessageFromSystem(systemA); // Process received message on SystemA
+                            // Process received message on SystemA
+
                         } else {
                             System.out.println("Systems are not connected.");
                         }
@@ -109,7 +111,7 @@ public class connect {
                 case 4:
                     if (systemB.isConnected()) {
                         System.out.println("Receiving messages on SystemB from SystemA");
-                        systemB.receiveMessageFromSystem(systemA);
+                        systemA.receiveMessageFromSystem(systemB);
                     } else {
                         System.out.println("SystemB is not connected to SystemA.");
                     }
@@ -117,7 +119,7 @@ public class connect {
                 case 5:
                     if (systemA.isConnected()) {
                         System.out.println("Receiving messages on SystemA");
-                        systemA.receiveMessageFromSystem(systemB);
+                        systemB.receiveMessageFromSystem(systemA);
                     } else {
                         System.out.println("SystemA is not connected to SystemB.");
                     }
